@@ -31,10 +31,10 @@ namespace Game
 
 
         // A random number object used to pick bad guy directions.
-        Random rnd = new Random();
+        private readonly Random _rnd = new Random();
 
         // The maze - an array of numbers describing the possible directions (and a dot)
-        private int[,] maze =
+        private readonly int[,] _maze =
           {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,6,10,14,10,10,14,10,10,14,10,10,14,10,12,0},
@@ -66,38 +66,38 @@ namespace Game
             for (int y = 0; y < 16; y++)
                 for (int x = 0; x < 16; x++)
                 {
-                    int tile = maze[y, x];
+                    int tile = _maze[y, x];
 
                     // If a tile isn't a wall, it can contain a dot.
                     if (tile != 0)
                     {
-                        maze[y, x] = tile + 16;
+                        _maze[y, x] = tile + 16;
                     }
                 }
         }
 
         public int GetTile(int a, int b)
         {
-            return maze[a, b];
+            return _maze[a, b];
         }
 
         public void SetTile(int a, int b, int newTile)
         {
-            maze[a, b] = newTile;
+            _maze[a, b] = newTile;
         }
 
         // This code provides our baddies with a new direction value, hopefully one that prevents them from
         // getting stuck in an infinite loop. This is something that needs improvement - and also is where
         // you could put code that makes the baddies specifically follow the player.
 
-        private readonly int[] sequence = { 1, 2, 4, 8, 4, 2, 1, 1, 2, 2, 4, 4, 8, 8, 1, 2, 4, 8, 8, 4, 4, 2, 2, 1, 1, 2, 2, 4, 4, 8, 2, 4, 8, 4, 1, 2 };
-        private int sequenceCounter = 0;
+        private readonly int[] _sequence = { 1, 2, 4, 8, 4, 2, 1, 1, 2, 2, 4, 4, 8, 8, 1, 2, 4, 8, 8, 4, 4, 2, 2, 1, 1, 2, 2, 4, 4, 8, 2, 4, 8, 4, 1, 2 };
+        private int _sequenceCounter; //= 0;
 
         public int NextDirection()
         {
-            sequenceCounter += 1;
-            if (sequenceCounter >= sequence.Length) sequenceCounter = rnd.Next(sequence.Length);
-            return sequence[sequenceCounter];
+            _sequenceCounter += 1;
+            if (_sequenceCounter >= _sequence.Length) _sequenceCounter = _rnd.Next(_sequence.Length);
+            return _sequence[_sequenceCounter];
         }
     }
 }
